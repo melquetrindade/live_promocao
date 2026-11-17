@@ -18,6 +18,18 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
+## Acesso administrativo
+
+O login administrativo usa `DATABASE_URL` e `SESSION_SECRET` no arquivo `.env`.
+Gere um segredo com pelo menos 32 bytes usando:
+
+```bash
+node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"
+```
+
+Copie o valor gerado para `SESSION_SECRET` no `.env`. Não compartilhe nem
+versione esse segredo.
+
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
