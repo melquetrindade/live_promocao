@@ -1,0 +1,172 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ================== ENUMS ==================
+
+enum StatusFuncionario {
+  ATIVO
+  INATIVO
+}
+
+enum StatusLive {
+  AGENDADA
+  ABERTA
+  FECHADA
+}
+
+enum StatusPedido {
+  PENDENTE
+  PAGO
+  DESPACHADO
+  CANCELADO
+}
+
+// ================== MODELS ==================
+
+model Empresa {
+  id   Int    @id @default(autoincrement())
+  nome String
+  cnpj String @unique
+
+  funcionarios Funcionario[]
+  lives        Live[]
+
+  @@map("empresa")
+}
+
+model Funcionario {
+  id        Int               @id @default(autoincrement())
+  nome      String
+  status    StatusFuncionario @default(ATIVO)
+  cargo     String
+  empresaId Int               @map("empresa_id")
+
+  empresa           Empresa         @relation(fields: [empresaId], references: [id])
+  credencial        Credencial?
+  pedidosDespacho   Pedido[]        @relation("FuncionarioDespacho")
+  anotacoesLive     AnotacaoLive[]
+
+  @@map("funcionario")
+}
+
+model Credencial {
+  id            Int    @id @default(autoincrement())
+  funcionarioId Int    @unique @map("funcionario_id")
+  senhaHash     String @map("senha_hash")
+  login         String @unique
+
+  funcionario Funcionario @relation(fields: [funcionarioId], references: [id], onDelete: Cascade)
+
+  @@map("credencial")
+}
+
+model Produto {
+  id            Int     @id @default(autoincrement())
+  nome          String
+  codigoBarras  String  @unique @map("codigo_barras")
+  estoque       Int     @default(0)
+  descricao     String?
+  preco         Decimal @db.Decimal(10, 2)
+  ativo         Boolean @default(true)
+
+  liveProdutos LiveProduto[]
+
+  @@map("produto")
+}
+
+model Cliente {
+  id        Int     @id @default(autoincrement())
+  nome      String
+  instagram String  @unique
+  telefone  String?
+
+  pedidos Pedido[]
+
+  @@map("cliente")
+}
+
+model Live {
+  id              Int        @id @default(autoincrement())
+  nome            String
+  status          StatusLive @default(AGENDADA)
+  dataAbertura    DateTime   @map("data_abertura")
+  dataFechamento  DateTime?  @map("data_fechamento")
+  metaArrecadacao Decimal?   @map("meta_arrecadacao") @db.Decimal(12, 2)
+  empresaId       Int        @map("empresa_id")
+
+  empresa      Empresa        @relation(fields: [empresaId], references: [id])
+  liveProdutos LiveProduto[]
+  pedidos      Pedido[]
+  anotacoes    AnotacaoLive[]
+
+  @@map("live")
+}
+
+model LiveProduto {
+  id                   Int     @id @default(autoincrement())
+  liveId               Int     @map("live_id")
+  produtoId            Int     @map("produto_id")
+  precoLive            Decimal @map("preco_live") @db.Decimal(10, 2)
+  quantidadeDisponivel Int     @map("quantidade_disponivel")
+
+  live        Live         @relation(fields: [liveId], references: [id], onDelete: Cascade)
+  produto     Produto      @relation(fields: [produtoId], references: [id])
+  itensPedido ItemPedido[]
+
+  @@unique([liveId, produtoId])
+  @@map("live_produto")
+}
+
+model Pedido {
+  id                    Int          @id @default(autoincrement())
+  status                StatusPedido @default(PENDENTE)
+  total                 Decimal      @db.Decimal(12, 2)
+  clienteId             Int          @map("cliente_id")
+  funcionarioDespachoId Int?         @map("funcionario_despacho_id")
+  liveId                Int          @map("live_id")
+  dataCriacao           DateTime     @default(now()) @map("data_criacao")
+
+  cliente             Cliente      @relation(fields: [clienteId], references: [id])
+  funcionarioDespacho Funcionario? @relation("FuncionarioDespacho", fields: [funcionarioDespachoId], references: [id])
+  live                Live         @relation(fields: [liveId], references: [id])
+  itens               ItemPedido[]
+
+  @@map("pedido")
+}
+
+model ItemPedido {
+  id            Int     @id @default(autoincrement())
+  liveProdutoId Int     @map("live_produto_id")
+  pedidoId      Int     @map("pedido_id")
+  quantidade    Int
+  precoUnitario Decimal @map("preco_unitario") @db.Decimal(10, 2)
+
+  liveProduto LiveProduto @relation(fields: [liveProdutoId], references: [id])
+  pedido      Pedido      @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
+
+  @@map("item_pedido")
+}
+
+model AnotacaoLive {
+  id            Int      @id @default(autoincrement())
+  anotacao      String
+  liveId        Int      @map("live_id")
+  funcionarioId Int      @map("funcionario_id")
+  dataCriacao   DateTime @default(now()) @map("data_criacao")
+
+  live        Live        @relation(fields: [liveId], references: [id], onDelete: Cascade)
+  funcionario Funcionario @relation(fields: [funcionarioId], references: [id])
+
+  @@map("anotacao_live")
+}
