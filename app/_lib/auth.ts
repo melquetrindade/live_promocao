@@ -1,7 +1,8 @@
 import "server-only";
 
 export {
-  createAdminSession,
-  deleteAdminSession,
+  createFuncionarioSession,
+  deleteFuncionarioSession,
+  getAuthenticatedFuncionario,
   getAuthenticatedAdmin,
 } from "./session";

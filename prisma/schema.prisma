@@ -41,13 +41,14 @@ model Empresa {
 
   funcionarios Funcionario[]
   lives        Live[]
+  produtos     Produto[]
 
   @@map("empresa")
 }
 
 model Funcionario {
   id        Int               @id @default(autoincrement())
-  nome      String
+  nome      String            @unique
   status    StatusFuncionario @default(ATIVO)
   cargo     String
   empresaId Int               @map("empresa_id")
@@ -79,7 +80,9 @@ model Produto {
   descricao     String?
   preco         Decimal @db.Decimal(10, 2)
   ativo         Boolean @default(true)
+  empresaId     Int?    @map("empresa_id")
 
+  empresa      Empresa?       @relation(fields: [empresaId], references: [id], onDelete: Restrict)
   liveProdutos LiveProduto[]
 
   @@map("produto")

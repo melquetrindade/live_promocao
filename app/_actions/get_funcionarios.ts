@@ -15,6 +15,7 @@ export async function getFuncionarios() {
       id: true,
       nome: true,
       cargo: true,
+      status: true,
       empresa: {
         select: {
           nome: true,

@@ -1,14 +1,14 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
-import { login } from "../_actions/login";
+import { loginAdmin } from "../_actions/login";
 import { Alert } from "../components/ui/alert";
 import { Button } from "../components/ui/button";
 
 const initialState = { error: null as string | null };
 
 export default function Home() {
-  const [state, formAction, pending] = useActionState(login, initialState);
+  const [state, formAction, pending] = useActionState(loginAdmin, initialState);
   const [dismissedErrorState, setDismissedErrorState] =
     useState<typeof initialState | null>(null);
 

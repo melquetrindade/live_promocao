@@ -9,6 +9,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { FuncionarioCardActions } from "./funcionario-card-actions";
 
 export default function FuncionariosPage() {
   return (
@@ -40,7 +42,9 @@ async function AuthenticatedFuncionarios() {
           <h1 className="text-3xl font-semibold tracking-tight">
             Funcionários
           </h1>
-          <Button type="button">Cadastrar</Button>
+          <Button render={<Link href="/admin/funcionarios/formulario" />}>
+            Cadastrar
+          </Button>
         </div>
 
         {funcionarios.length === 0 ? (
@@ -65,15 +69,11 @@ async function AuthenticatedFuncionarios() {
                   </p>
                 </CardContent>
                 <CardFooter className="grid grid-cols-3 gap-2">
-                  <Button type="button" variant="outline" size="sm">
-                    Editar
-                  </Button>
-                  <Button type="button" variant="destructive" size="sm">
-                    Excluir
-                  </Button>
-                  <Button type="button" variant="secondary" size="sm">
-                    Desativar
-                  </Button>
+                  <FuncionarioCardActions
+                    funcionarioId={funcionario.id}
+                    funcionarioNome={funcionario.nome}
+                    ativo={funcionario.status === "ATIVO"}
+                  />
                 </CardFooter>
               </Card>
             ))}

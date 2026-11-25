@@ -572,14 +572,6 @@ export type EnumStatusPedidoFieldUpdateOperationsInput = {
   set?: $Enums.StatusPedido
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type PedidoCreateNestedOneWithoutItensInput = {
   create?: Prisma.XOR<Prisma.PedidoCreateWithoutItensInput, Prisma.PedidoUncheckedCreateWithoutItensInput>
   connectOrCreate?: Prisma.PedidoCreateOrConnectWithoutItensInput

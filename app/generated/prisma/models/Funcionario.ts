@@ -240,10 +240,10 @@ export type FuncionarioOrderByWithRelationInput = {
 
 export type FuncionarioWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  nome?: string
   AND?: Prisma.FuncionarioWhereInput | Prisma.FuncionarioWhereInput[]
   OR?: Prisma.FuncionarioWhereInput[]
   NOT?: Prisma.FuncionarioWhereInput | Prisma.FuncionarioWhereInput[]
-  nome?: Prisma.StringFilter<"Funcionario"> | string
   status?: Prisma.EnumStatusFuncionarioFilter<"Funcionario"> | $Enums.StatusFuncionario
   cargo?: Prisma.StringFilter<"Funcionario"> | string
   empresaId?: Prisma.IntFilter<"Funcionario"> | number
@@ -251,7 +251,7 @@ export type FuncionarioWhereUniqueInput = Prisma.AtLeast<{
   credencial?: Prisma.XOR<Prisma.CredencialNullableScalarRelationFilter, Prisma.CredencialWhereInput> | null
   pedidosDespacho?: Prisma.PedidoListRelationFilter
   anotacoesLive?: Prisma.AnotacaoLiveListRelationFilter
-}, "id">
+}, "id" | "nome">
 
 export type FuncionarioOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

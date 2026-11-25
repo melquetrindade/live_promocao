@@ -202,6 +202,7 @@ export type EmpresaWhereInput = {
   cnpj?: Prisma.StringFilter<"Empresa"> | string
   funcionarios?: Prisma.FuncionarioListRelationFilter
   lives?: Prisma.LiveListRelationFilter
+  produtos?: Prisma.ProdutoListRelationFilter
 }
 
 export type EmpresaOrderByWithRelationInput = {
@@ -210,6 +211,7 @@ export type EmpresaOrderByWithRelationInput = {
   cnpj?: Prisma.SortOrder
   funcionarios?: Prisma.FuncionarioOrderByRelationAggregateInput
   lives?: Prisma.LiveOrderByRelationAggregateInput
+  produtos?: Prisma.ProdutoOrderByRelationAggregateInput
 }
 
 export type EmpresaWhereUniqueInput = Prisma.AtLeast<{
@@ -221,6 +223,7 @@ export type EmpresaWhereUniqueInput = Prisma.AtLeast<{
   nome?: Prisma.StringFilter<"Empresa"> | string
   funcionarios?: Prisma.FuncionarioListRelationFilter
   lives?: Prisma.LiveListRelationFilter
+  produtos?: Prisma.ProdutoListRelationFilter
 }, "id" | "cnpj">
 
 export type EmpresaOrderByWithAggregationInput = {
@@ -248,6 +251,7 @@ export type EmpresaCreateInput = {
   cnpj: string
   funcionarios?: Prisma.FuncionarioCreateNestedManyWithoutEmpresaInput
   lives?: Prisma.LiveCreateNestedManyWithoutEmpresaInput
+  produtos?: Prisma.ProdutoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateInput = {
@@ -256,6 +260,7 @@ export type EmpresaUncheckedCreateInput = {
   cnpj: string
   funcionarios?: Prisma.FuncionarioUncheckedCreateNestedManyWithoutEmpresaInput
   lives?: Prisma.LiveUncheckedCreateNestedManyWithoutEmpresaInput
+  produtos?: Prisma.ProdutoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUpdateInput = {
@@ -263,6 +268,7 @@ export type EmpresaUpdateInput = {
   cnpj?: Prisma.StringFieldUpdateOperationsInput | string
   funcionarios?: Prisma.FuncionarioUpdateManyWithoutEmpresaNestedInput
   lives?: Prisma.LiveUpdateManyWithoutEmpresaNestedInput
+  produtos?: Prisma.ProdutoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateInput = {
@@ -271,6 +277,7 @@ export type EmpresaUncheckedUpdateInput = {
   cnpj?: Prisma.StringFieldUpdateOperationsInput | string
   funcionarios?: Prisma.FuncionarioUncheckedUpdateManyWithoutEmpresaNestedInput
   lives?: Prisma.LiveUncheckedUpdateManyWithoutEmpresaNestedInput
+  produtos?: Prisma.ProdutoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateManyInput = {
@@ -321,6 +328,11 @@ export type EmpresaScalarRelationFilter = {
   isNot?: Prisma.EmpresaWhereInput
 }
 
+export type EmpresaNullableScalarRelationFilter = {
+  is?: Prisma.EmpresaWhereInput | null
+  isNot?: Prisma.EmpresaWhereInput | null
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -347,6 +359,22 @@ export type EmpresaUpdateOneRequiredWithoutFuncionariosNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.EmpresaUpdateToOneWithWhereWithoutFuncionariosInput, Prisma.EmpresaUpdateWithoutFuncionariosInput>, Prisma.EmpresaUncheckedUpdateWithoutFuncionariosInput>
 }
 
+export type EmpresaCreateNestedOneWithoutProdutosInput = {
+  create?: Prisma.XOR<Prisma.EmpresaCreateWithoutProdutosInput, Prisma.EmpresaUncheckedCreateWithoutProdutosInput>
+  connectOrCreate?: Prisma.EmpresaCreateOrConnectWithoutProdutosInput
+  connect?: Prisma.EmpresaWhereUniqueInput
+}
+
+export type EmpresaUpdateOneWithoutProdutosNestedInput = {
+  create?: Prisma.XOR<Prisma.EmpresaCreateWithoutProdutosInput, Prisma.EmpresaUncheckedCreateWithoutProdutosInput>
+  connectOrCreate?: Prisma.EmpresaCreateOrConnectWithoutProdutosInput
+  upsert?: Prisma.EmpresaUpsertWithoutProdutosInput
+  disconnect?: Prisma.EmpresaWhereInput | boolean
+  delete?: Prisma.EmpresaWhereInput | boolean
+  connect?: Prisma.EmpresaWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EmpresaUpdateToOneWithWhereWithoutProdutosInput, Prisma.EmpresaUpdateWithoutProdutosInput>, Prisma.EmpresaUncheckedUpdateWithoutProdutosInput>
+}
+
 export type EmpresaCreateNestedOneWithoutLivesInput = {
   create?: Prisma.XOR<Prisma.EmpresaCreateWithoutLivesInput, Prisma.EmpresaUncheckedCreateWithoutLivesInput>
   connectOrCreate?: Prisma.EmpresaCreateOrConnectWithoutLivesInput
@@ -365,6 +393,7 @@ export type EmpresaCreateWithoutFuncionariosInput = {
   nome: string
   cnpj: string
   lives?: Prisma.LiveCreateNestedManyWithoutEmpresaInput
+  produtos?: Prisma.ProdutoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutFuncionariosInput = {
@@ -372,6 +401,7 @@ export type EmpresaUncheckedCreateWithoutFuncionariosInput = {
   nome: string
   cnpj: string
   lives?: Prisma.LiveUncheckedCreateNestedManyWithoutEmpresaInput
+  produtos?: Prisma.ProdutoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutFuncionariosInput = {
@@ -394,6 +424,7 @@ export type EmpresaUpdateWithoutFuncionariosInput = {
   nome?: Prisma.StringFieldUpdateOperationsInput | string
   cnpj?: Prisma.StringFieldUpdateOperationsInput | string
   lives?: Prisma.LiveUpdateManyWithoutEmpresaNestedInput
+  produtos?: Prisma.ProdutoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutFuncionariosInput = {
@@ -401,12 +432,60 @@ export type EmpresaUncheckedUpdateWithoutFuncionariosInput = {
   nome?: Prisma.StringFieldUpdateOperationsInput | string
   cnpj?: Prisma.StringFieldUpdateOperationsInput | string
   lives?: Prisma.LiveUncheckedUpdateManyWithoutEmpresaNestedInput
+  produtos?: Prisma.ProdutoUncheckedUpdateManyWithoutEmpresaNestedInput
+}
+
+export type EmpresaCreateWithoutProdutosInput = {
+  nome: string
+  cnpj: string
+  funcionarios?: Prisma.FuncionarioCreateNestedManyWithoutEmpresaInput
+  lives?: Prisma.LiveCreateNestedManyWithoutEmpresaInput
+}
+
+export type EmpresaUncheckedCreateWithoutProdutosInput = {
+  id?: number
+  nome: string
+  cnpj: string
+  funcionarios?: Prisma.FuncionarioUncheckedCreateNestedManyWithoutEmpresaInput
+  lives?: Prisma.LiveUncheckedCreateNestedManyWithoutEmpresaInput
+}
+
+export type EmpresaCreateOrConnectWithoutProdutosInput = {
+  where: Prisma.EmpresaWhereUniqueInput
+  create: Prisma.XOR<Prisma.EmpresaCreateWithoutProdutosInput, Prisma.EmpresaUncheckedCreateWithoutProdutosInput>
+}
+
+export type EmpresaUpsertWithoutProdutosInput = {
+  update: Prisma.XOR<Prisma.EmpresaUpdateWithoutProdutosInput, Prisma.EmpresaUncheckedUpdateWithoutProdutosInput>
+  create: Prisma.XOR<Prisma.EmpresaCreateWithoutProdutosInput, Prisma.EmpresaUncheckedCreateWithoutProdutosInput>
+  where?: Prisma.EmpresaWhereInput
+}
+
+export type EmpresaUpdateToOneWithWhereWithoutProdutosInput = {
+  where?: Prisma.EmpresaWhereInput
+  data: Prisma.XOR<Prisma.EmpresaUpdateWithoutProdutosInput, Prisma.EmpresaUncheckedUpdateWithoutProdutosInput>
+}
+
+export type EmpresaUpdateWithoutProdutosInput = {
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  cnpj?: Prisma.StringFieldUpdateOperationsInput | string
+  funcionarios?: Prisma.FuncionarioUpdateManyWithoutEmpresaNestedInput
+  lives?: Prisma.LiveUpdateManyWithoutEmpresaNestedInput
+}
+
+export type EmpresaUncheckedUpdateWithoutProdutosInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  cnpj?: Prisma.StringFieldUpdateOperationsInput | string
+  funcionarios?: Prisma.FuncionarioUncheckedUpdateManyWithoutEmpresaNestedInput
+  lives?: Prisma.LiveUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutLivesInput = {
   nome: string
   cnpj: string
   funcionarios?: Prisma.FuncionarioCreateNestedManyWithoutEmpresaInput
+  produtos?: Prisma.ProdutoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutLivesInput = {
@@ -414,6 +493,7 @@ export type EmpresaUncheckedCreateWithoutLivesInput = {
   nome: string
   cnpj: string
   funcionarios?: Prisma.FuncionarioUncheckedCreateNestedManyWithoutEmpresaInput
+  produtos?: Prisma.ProdutoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutLivesInput = {
@@ -436,6 +516,7 @@ export type EmpresaUpdateWithoutLivesInput = {
   nome?: Prisma.StringFieldUpdateOperationsInput | string
   cnpj?: Prisma.StringFieldUpdateOperationsInput | string
   funcionarios?: Prisma.FuncionarioUpdateManyWithoutEmpresaNestedInput
+  produtos?: Prisma.ProdutoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutLivesInput = {
@@ -443,6 +524,7 @@ export type EmpresaUncheckedUpdateWithoutLivesInput = {
   nome?: Prisma.StringFieldUpdateOperationsInput | string
   cnpj?: Prisma.StringFieldUpdateOperationsInput | string
   funcionarios?: Prisma.FuncionarioUncheckedUpdateManyWithoutEmpresaNestedInput
+  produtos?: Prisma.ProdutoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 
@@ -453,11 +535,13 @@ export type EmpresaUncheckedUpdateWithoutLivesInput = {
 export type EmpresaCountOutputType = {
   funcionarios: number
   lives: number
+  produtos: number
 }
 
 export type EmpresaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   funcionarios?: boolean | EmpresaCountOutputTypeCountFuncionariosArgs
   lives?: boolean | EmpresaCountOutputTypeCountLivesArgs
+  produtos?: boolean | EmpresaCountOutputTypeCountProdutosArgs
 }
 
 /**
@@ -484,6 +568,13 @@ export type EmpresaCountOutputTypeCountLivesArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.LiveWhereInput
 }
 
+/**
+ * EmpresaCountOutputType without action
+ */
+export type EmpresaCountOutputTypeCountProdutosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProdutoWhereInput
+}
+
 
 export type EmpresaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -491,6 +582,7 @@ export type EmpresaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   cnpj?: boolean
   funcionarios?: boolean | Prisma.Empresa$funcionariosArgs<ExtArgs>
   lives?: boolean | Prisma.Empresa$livesArgs<ExtArgs>
+  produtos?: boolean | Prisma.Empresa$produtosArgs<ExtArgs>
   _count?: boolean | Prisma.EmpresaCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["empresa"]>
 
@@ -516,6 +608,7 @@ export type EmpresaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type EmpresaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   funcionarios?: boolean | Prisma.Empresa$funcionariosArgs<ExtArgs>
   lives?: boolean | Prisma.Empresa$livesArgs<ExtArgs>
+  produtos?: boolean | Prisma.Empresa$produtosArgs<ExtArgs>
   _count?: boolean | Prisma.EmpresaCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EmpresaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -526,6 +619,7 @@ export type $EmpresaPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     funcionarios: Prisma.$FuncionarioPayload<ExtArgs>[]
     lives: Prisma.$LivePayload<ExtArgs>[]
+    produtos: Prisma.$ProdutoPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -927,6 +1021,7 @@ export interface Prisma__EmpresaClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   funcionarios<T extends Prisma.Empresa$funcionariosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$funcionariosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FuncionarioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   lives<T extends Prisma.Empresa$livesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$livesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LivePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  produtos<T extends Prisma.Empresa$produtosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$produtosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProdutoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1397,6 +1492,30 @@ export type Empresa$livesArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.LiveScalarFieldEnum | Prisma.LiveScalarFieldEnum[]
+}
+
+/**
+ * Empresa.produtos
+ */
+export type Empresa$produtosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Produto
+   */
+  select?: Prisma.ProdutoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Produto
+   */
+  omit?: Prisma.ProdutoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProdutoInclude<ExtArgs> | null
+  where?: Prisma.ProdutoWhereInput
+  orderBy?: Prisma.ProdutoOrderByWithRelationInput | Prisma.ProdutoOrderByWithRelationInput[]
+  cursor?: Prisma.ProdutoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProdutoScalarFieldEnum | Prisma.ProdutoScalarFieldEnum[]
 }
 
 /**

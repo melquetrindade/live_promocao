@@ -4,7 +4,7 @@ import argon2 from "argon2";
 import { redirect } from "next/navigation";
 import { StatusFuncionario } from "../generated/prisma/enums";
 import { db } from "../_lib/prisma";
-import { createAdminSession } from "../_lib/auth";
+import { createFuncionarioSession } from "../_lib/auth";
 
 export type LoginState = {
   error: string | null;
@@ -15,6 +15,20 @@ const invalidCredentialsMessage = "O login ou a senha estão incorretos.";
 export async function login(
   _previousState: LoginState,
   formData: FormData,
+): Promise<LoginState> {
+  return authenticate(formData, "operacional");
+}
+
+export async function loginAdmin(
+  _previousState: LoginState,
+  formData: FormData,
+): Promise<LoginState> {
+  return authenticate(formData, "admin");
+}
+
+async function authenticate(
+  formData: FormData,
+  destination: "admin" | "operacional",
 ): Promise<LoginState> {
   const loginValue = formData.get("login");
   const passwordValue = formData.get("password");
@@ -36,6 +50,7 @@ export async function login(
         select: {
           id: true,
           status: true,
+          cargo: true,
         },
       },
     },
@@ -49,6 +64,24 @@ export async function login(
     return { error: invalidCredentialsMessage };
   }
 
-  await createAdminSession(credential.funcionario.id);
-  redirect("/admin/dashboard");
+  const cargo = credential.funcionario.cargo;
+
+  if (destination === "admin" && cargo !== "ADMINISTRADOR") {
+    return {
+      error: "Apenas funcionários com cargo ADMINISTRADOR podem acessar o painel.",
+    };
+  }
+
+  if (
+    destination === "operacional" &&
+    cargo !== "ADMINISTRADOR" &&
+    cargo !== "VENDEDOR"
+  ) {
+    return {
+      error: "Este funcionário não possui um cargo autorizado para acessar o sistema.",
+    };
+  }
+
+  await createFuncionarioSession(credential.funcionario.id);
+  redirect(destination === "admin" ? "/admin/dashboard" : "/operacional");
 }

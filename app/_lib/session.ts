@@ -25,7 +25,7 @@ function signSession(employeeId: number, expiresAt: number): string {
     .digest("base64url");
 }
 
-export async function createAdminSession(employeeId: number): Promise<void> {
+export async function createFuncionarioSession(employeeId: number): Promise<void> {
   const expiresAt = Math.floor(Date.now() / 1000) + sessionDurationSeconds;
   const signature = signSession(employeeId, expiresAt);
   const cookieStore = await cookies();
@@ -43,12 +43,12 @@ export async function createAdminSession(employeeId: number): Promise<void> {
   );
 }
 
-export async function deleteAdminSession(): Promise<void> {
+export async function deleteFuncionarioSession(): Promise<void> {
   const cookieStore = await cookies();
   cookieStore.delete(sessionCookieName);
 }
 
-export async function getAuthenticatedAdmin() {
+export async function getAuthenticatedFuncionario() {
   await connection();
 
   const cookieStore = await cookies();
@@ -94,10 +94,21 @@ export async function getAuthenticatedAdmin() {
       id: true,
       nome: true,
       status: true,
+      cargo: true,
     },
   });
 
   if (!employee || employee.status !== StatusFuncionario.ATIVO) {
+    return null;
+  }
+
+  return employee;
+}
+
+export async function getAuthenticatedAdmin() {
+  const employee = await getAuthenticatedFuncionario();
+
+  if (!employee || employee.cargo !== "ADMINISTRADOR") {
     return null;
   }
 
