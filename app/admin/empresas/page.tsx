@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { CriarEmpresaModal, EmpresaCardActions } from "./empresa-actions";
 
 export default function EmpresasPage() {
   return (
@@ -38,7 +38,7 @@ async function AuthenticatedEmpresas() {
       <section className="mx-auto max-w-5xl">
         <div className="flex items-center justify-between gap-4">
           <h1 className="text-3xl font-semibold tracking-tight">Empresas</h1>
-          <Button type="button">Criar</Button>
+          <CriarEmpresaModal />
         </div>
 
         {empresas.length === 0 ? (
@@ -57,16 +57,12 @@ async function AuthenticatedEmpresas() {
                     <span className="font-medium">CNPJ:</span> {empresa.cnpj}
                   </p>
                 </CardContent>
-                <CardFooter className="grid grid-cols-3 gap-2">
-                  <Button type="button" variant="outline" size="sm">
-                    Editar
-                  </Button>
-                  <Button type="button" variant="destructive" size="sm">
-                    Excluir
-                  </Button>
-                  <Button type="button" variant="secondary" size="sm">
-                    Desativar
-                  </Button>
+                <CardFooter className="grid grid-cols-2 gap-2">
+                  <EmpresaCardActions
+                    empresaId={empresa.id}
+                    empresaNome={empresa.nome}
+                    empresaCnpj={empresa.cnpj}
+                  />
                 </CardFooter>
               </Card>
             ))}
