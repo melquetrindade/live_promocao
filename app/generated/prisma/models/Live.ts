@@ -262,10 +262,10 @@ export type LiveOrderByWithRelationInput = {
 
 export type LiveWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  nome?: string
   AND?: Prisma.LiveWhereInput | Prisma.LiveWhereInput[]
   OR?: Prisma.LiveWhereInput[]
   NOT?: Prisma.LiveWhereInput | Prisma.LiveWhereInput[]
-  nome?: Prisma.StringFilter<"Live"> | string
   status?: Prisma.EnumStatusLiveFilter<"Live"> | $Enums.StatusLive
   dataAbertura?: Prisma.DateTimeFilter<"Live"> | Date | string
   dataFechamento?: Prisma.DateTimeNullableFilter<"Live"> | Date | string | null
@@ -275,7 +275,7 @@ export type LiveWhereUniqueInput = Prisma.AtLeast<{
   liveProdutos?: Prisma.LiveProdutoListRelationFilter
   pedidos?: Prisma.PedidoListRelationFilter
   anotacoes?: Prisma.AnotacaoLiveListRelationFilter
-}, "id">
+}, "id" | "nome">
 
 export type LiveOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

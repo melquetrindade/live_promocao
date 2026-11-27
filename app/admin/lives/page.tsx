@@ -5,9 +5,14 @@ import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { LiveCardActions } from "./live-card-actions";
+import { LiveStatusRefresh } from "./live-status-refresh";
 
 export default function LivesPage() {
   return (
@@ -35,7 +40,17 @@ async function AuthenticatedLives() {
   return (
     <main className="min-h-screen bg-background px-6 py-10">
       <section className="mx-auto max-w-5xl">
-        <h1 className="text-3xl font-semibold tracking-tight">Lives</h1>
+        <LiveStatusRefresh
+          transitions={lives.flatMap((live) =>
+            live.dataFechamento ? [live.dataFechamento.toISOString()] : [],
+          )}
+        />
+        <div className="flex items-center justify-between gap-4">
+          <h1 className="text-3xl font-semibold tracking-tight">Lives</h1>
+          <Button render={<Link href="/admin/lives/formulario" />}>
+            Criar
+          </Button>
+        </div>
 
         {lives.length === 0 ? (
           <p className="mt-6 text-muted-foreground">
@@ -85,6 +100,14 @@ async function AuthenticatedLives() {
                     {live.empresa.nome}
                   </p>
                 </CardContent>
+                <CardFooter className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                  <LiveCardActions
+                    liveId={live.id}
+                    liveNome={live.nome}
+                    status={live.status}
+                    canOpen={live.canOpen}
+                  />
+                </CardFooter>
               </Card>
             ))}
           </div>

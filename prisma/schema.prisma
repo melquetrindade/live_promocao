@@ -101,7 +101,7 @@ model Cliente {
 
 model Live {
   id              Int        @id @default(autoincrement())
-  nome            String
+  nome            String     @unique
   status          StatusLive @default(AGENDADA)
   dataAbertura    DateTime   @map("data_abertura")
   dataFechamento  DateTime?  @map("data_fechamento")
