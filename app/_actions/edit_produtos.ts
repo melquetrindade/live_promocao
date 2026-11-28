@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { Prisma } from "../generated/prisma/client";
 import type { ProdutoFormState } from "../admin/produto/formulario/produto-form";
@@ -119,5 +120,6 @@ export async function editProduto(
     throw error;
   }
 
+  revalidatePath("/admin/lives/live_produtos");
   redirect("/admin/produtos");
 }

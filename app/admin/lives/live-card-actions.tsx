@@ -1,10 +1,13 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { AlertDialog } from "@base-ui/react/alert-dialog";
 import { deleteLive } from "../../_actions/delete_lives";
 import { fechaLive } from "../../_actions/fecha_lives";
+import { openLive } from "../../_actions/open_live";
+import type { OpenLiveState } from "../../_actions/open_live";
 import { Alert } from "../../components/ui/alert";
 import { Button } from "@/components/ui/button";
 
@@ -16,6 +19,7 @@ type LiveCardActionsProps = {
 };
 
 const initialState = { error: null };
+const initialOpenState: OpenLiveState = { error: null, success: false };
 
 export function LiveCardActions({
   liveId,
@@ -25,7 +29,18 @@ export function LiveCardActions({
 }: LiveCardActionsProps) {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [closeOpen, setCloseOpen] = useState(false);
+  const [openState, openFormAction, openPending] = useActionState(
+    openLive,
+    initialOpenState,
+  );
+  const router = useRouter();
   const canManage = status === "ABERTA" || status === "AGENDADA";
+
+  useEffect(() => {
+    if (openState.success) {
+      router.refresh();
+    }
+  }, [openState.success, router]);
 
   return (
     <>
@@ -108,19 +123,40 @@ export function LiveCardActions({
       )}
 
       {status === "AGENDADA" && (
+        <div className="col-span-full space-y-2">
+          <form action={openFormAction}>
+            <input type="hidden" name="liveId" value={liveId} />
+            <Button
+              type="submit"
+              variant="outline"
+              size="sm"
+              className="w-full"
+              disabled={!canOpen || openPending}
+              title={
+                !canOpen
+                  ? "A live precisa ter produtos e ainda não pode ter passado da data de fechamento."
+                  : undefined
+              }
+            >
+              {openPending ? "Abrindo..." : "Abrir"}
+            </Button>
+          </form>
+          {openState.error && (
+            <Alert variant="destructive">{openState.error}</Alert>
+          )}
+        </div>
+      )}
+
+      {status === "ABERTA" && (
         <Button
           type="button"
-          variant="outline"
           size="sm"
           className="col-span-full"
-          disabled={!canOpen}
-          title={
-            !canOpen
-              ? "A live precisa ter produtos e ainda não pode ter passado da data de fechamento."
-              : undefined
+          render={
+            <Link href={`/admin/lives/live_pedidos?id=${liveId}`} />
           }
         >
-          Abrir
+          Entrar na Live
         </Button>
       )}
     </>

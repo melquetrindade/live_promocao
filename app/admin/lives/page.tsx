@@ -72,6 +72,15 @@ async function AuthenticatedLives() {
                             : "outline"
                       }
                     >
+                      {live.status === "ABERTA" && (
+                        <span
+                          className="relative inline-flex size-2"
+                          aria-label="Live aberta"
+                        >
+                          <span className="absolute inline-flex size-full animate-ping rounded-full bg-green-400 opacity-75" />
+                          <span className="relative inline-flex size-2 rounded-full bg-green-500" />
+                        </span>
+                      )}
                       {live.status}
                     </Badge>
                   </div>

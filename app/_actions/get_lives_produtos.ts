@@ -2,6 +2,7 @@
 
 import { getAuthenticatedAdmin } from "../_lib/auth";
 import { db } from "../_lib/prisma";
+import { syncLiveStatuses } from "../_lib/sync-live-statuses";
 
 export async function getLivesProdutos(liveId: number) {
   const authenticatedAdmin = await getAuthenticatedAdmin();
@@ -9,6 +10,8 @@ export async function getLivesProdutos(liveId: number) {
   if (!authenticatedAdmin) {
     return null;
   }
+
+  await syncLiveStatuses();
 
   const live = await db.live.findUnique({
     where: { id: liveId },
@@ -25,11 +28,11 @@ export async function getLivesProdutos(liveId: number) {
         select: {
           id: true,
           precoLive: true,
-          quantidadeDisponivel: true,
           produto: {
             select: {
               nome: true,
               codigoBarras: true,
+              estoque: true,
               preco: true,
             },
           },
